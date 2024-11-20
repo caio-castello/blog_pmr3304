@@ -1,0 +1,9 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.content|safe }}</p>
+    <p><small>Postado em {{ post.created_at}}</small></p>
+    <a href="{% url 'blog:edit' post.id %}">Edit</a> | 
+    <a href="{% url 'blog:delete' post.id %}">Delete</a>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h2>Apagar Post</h2>
+    <p>Você tem certeza que deseja Apagar "{{ post.title }}"?</p>
+    <p>Essa ação não pode ser desfeita!</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Apagar</button>
+        <a href="{% url 'blog:detail' post.id %}">Cancelar</a>
+    </form>
+{% endblock %}
