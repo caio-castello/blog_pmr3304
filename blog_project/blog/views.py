@@ -1,8 +1,10 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404, redirect
+from django.http import Http404
 from django.contrib.auth.decorators import login_required
-from .models import Post, Comment
+from .models import Post, Comment, Category
+from .forms import PostForm
 
 class post_list(ListView):
     model = Post
@@ -17,13 +19,13 @@ class post_detail(DetailView):
 
 class post_create(CreateView):
     model = Post
-    fields = ['title', 'content']
+    form_class = PostForm
     template_name = 'blog/post_form.html'
     success_url = reverse_lazy('blog:list')
 
 class post_edit(UpdateView):
     model = Post
-    fields = ['title', 'content']
+    form_class = PostForm
     template_name = 'blog/post_form.html'
     success_url = reverse_lazy('blog:list')
 
@@ -47,3 +49,19 @@ class comment_create(CreateView):
     def get_success_url(self):
         post_id = self.kwargs['post_id']
         return reverse('blog:detail', kwargs={'pk': post_id})
+
+class category_list(ListView):
+    model = Category
+    template_name = 'blog/category_list.html'
+    context_object_name = 'categories'
+
+class category_detail(DetailView):
+    model = Category
+    template_name = 'blog/category_detail.html'
+    context_object_name = 'category'
+
+    def get_queryset(self):
+        """
+        Garante que a categoria será carregada com seus posts.
+        """
+        return Category.objects.prefetch_related('posts').all()

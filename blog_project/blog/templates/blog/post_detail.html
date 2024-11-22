@@ -5,6 +5,18 @@
     <p>{{ post.content|safe }}</p>
     <p><small>Postado em {{ post.created_at|date:"d/m/Y H:i" }}</small></p>
 
+    <h3>Categorias:</h3>
+    <ul>
+        {% for category in post.categories.all %}
+            <li><a href="{% url 'blog:category_detail' category.id %}">{{ category.name }}</a></li>
+        {% empty %}
+            <li>Nenhuma</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'blog:edit' post.id %}">Editar</a>
+    <a href="{% url 'blog:delete' post.id %}">Apagar</a><br>
+
     <h3>Comentários</h3>
     <ul>
         {% for comment in post.comments.all|dictsortreversed:"created_at" %}

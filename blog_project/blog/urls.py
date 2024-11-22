@@ -6,6 +6,8 @@ from .views import (
     post_edit,
     post_delete,
     comment_create,
+    category_list,
+    category_detail,
 )
 
 app_name = 'blog'
@@ -18,4 +20,6 @@ urlpatterns = [
     path('post/<int:pk>/delete/', post_delete.as_view(), name='delete'),
     path('post/<int:post_id>/comment/', comment_create.as_view(), name='add_comment'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('category_list/', category_list.as_view(), name='category_list'),
+    path('category_detail/<int:pk>/', category_detail.as_view(), name='category_detail'),
 ]
