@@ -2,8 +2,20 @@
 
 {% block content %}
     <h2>{{ post.title }}</h2>
-    {{ post.content|safe }}
-    <p><small>Postado em {{ post.created_at}}</small></p>
-    <a href="{% url 'blog:edit' post.id %}">Edit</a> | 
-    <a href="{% url 'blog:delete' post.id %}">Delete</a>
+    <p>{{ post.content|safe }}</p>
+    <p><small>Postado em {{ post.created_at|date:"d/m/Y H:i" }}</small></p>
+
+    <h3>Comentários</h3>
+    <ul>
+        {% for comment in post.comments.all|dictsortreversed:"created_at" %}
+            <li>
+                <strong>{{ comment.author }}</strong> em {{ comment.created_at|date:"d/m/Y H:i" }}<br>
+                {{ comment.text }}
+            </li>
+        {% empty %}
+            <li>Sem comentários ainda.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'blog:add_comment' post.id %}">Adicionar Comentário</a>
 {% endblock %}

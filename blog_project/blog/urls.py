@@ -1,10 +1,11 @@
-from django.urls import path
+from django.urls import path, include
 from .views import (
     post_list,
     post_detail,
     post_create,
     post_edit,
     post_delete,
+    comment_create,
 )
 
 app_name = 'blog'
@@ -15,4 +16,6 @@ urlpatterns = [
     path('post/new/', post_create.as_view(), name='create'),
     path('post/<int:pk>/edit/', post_edit.as_view(), name='edit'),
     path('post/<int:pk>/delete/', post_delete.as_view(), name='delete'),
+    path('post/<int:post_id>/comment/', comment_create.as_view(), name='add_comment'),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
