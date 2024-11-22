@@ -1,12 +1,12 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    <h2>Categoria: {{ category.nome }}</h2>
+    <h2>Categoria: {{ category.name }}</h2>
 
     <h3>Posts nesta Categoria:</h3>
     <ul>
         {% for post in category.posts.all %}
-            <li><a href="{% url 'blog:post_detail' post.pk %}">{{ post.titulo }}</a></li>
+            <li><a href="{% url 'blog:detail' post.pk %}">{{ post.title }}</a></li>
         {% empty %}
             <li>Não há posts nesta categoria.</li>
         {% endfor %}
